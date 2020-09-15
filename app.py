@@ -49,9 +49,7 @@ def create():
 def detail(plant_id):
     """Display the plant detail page & process data from the harvest form."""
 
-    # TODO: Replace the following line with a database call to retrieve *one*
-    # plant from the database, whose id matches the id passed in via the URL.
-    plant_to_show = database.plants.find_one({"_id": plant_id})
+    plant_to_show = database.plants.find_one_or_404({"_id": ObjectId(plant_id)})
 
     # TODO: Use the `find` database operation to find all harvests for the
     # plant's id.
@@ -67,22 +65,14 @@ def detail(plant_id):
 
 @app.route('/harvest/<plant_id>', methods=['POST'])
 def harvest(plant_id):
-    """
-    Accepts a POST request with data for 1 harvest and inserts into database.
-    """
-
-    # TODO: Create a new harvest object by passing in the form data from the
-    # detail page form.
+    """Accepts a POST request with data for 1 harvest and inserts into database."""
     new_harvest = {
-        'quantity': '', # e.g. '3 tomatoes'
-        'date': '',
+        'quantity': request.form["quantity"],
+        'date_harvested': request.form["date_harvested"],
         'plant_id': plant_id
     }
-
-    # TODO: Make an `insert_one` database call to insert the object into the
-    # `harvests` collection of the database.
-
-    return redirect(url_for('detail', plant_id=plant_id))
+    database.harvests.insert_one(new_harvest)
+    return redirect(url_for('detail', plant_id = plant_id))
 
 @app.route('/edit/<plant_id>', methods=['GET', 'POST'])
 def edit(plant_id):
@@ -106,12 +96,9 @@ def edit(plant_id):
 
 @app.route('/delete/<plant_id>', methods=['POST'])
 def delete(plant_id):
-    # TODO: Make a `delete_one` database call to delete the plant with the given
-    # id.
-
-    # TODO: Also, make a `delete_many` database call to delete all harvests with
-    # the given plant id.
-
+    """Delete's specified plant and all of its harvest data"""
+    database.plants.delete_one({"_id": ObjectId(plant_id)})
+    database.harvests.delete_many({"plant_id": ObjectId(plant_id)})
     return redirect(url_for('plants_list'))
 
 if __name__ == '__main__':
