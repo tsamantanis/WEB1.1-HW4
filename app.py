@@ -48,15 +48,8 @@ def create():
 @app.route('/plant/<plant_id>')
 def detail(plant_id):
     """Display the plant detail page & process data from the harvest form."""
-
     plant_to_show = database.plants.find_one_or_404({"_id": ObjectId(plant_id)})
-
-    # TODO: Use the `find` database operation to find all harvests for the
-    # plant's id.
-    # HINT: This query should be on the `harvests` collection, not the `plants`
-    # collection.
-    harvests = database.harvests.find()
-
+    harvests = database.harvests.find({"plant_id": ObjectId(plant_id)})
     context = {
         'plant' : plant_to_show,
         'harvests': harvests
@@ -69,7 +62,7 @@ def harvest(plant_id):
     new_harvest = {
         'quantity': request.form["quantity"],
         'date_harvested': request.form["date_harvested"],
-        'plant_id': plant_id
+        'plant_id': ObjectId(plant_id)
     }
     database.harvests.insert_one(new_harvest)
     return redirect(url_for('detail', plant_id = plant_id))
@@ -78,16 +71,16 @@ def harvest(plant_id):
 def edit(plant_id):
     """Shows the edit page and accepts a POST request with edited data."""
     if request.method == 'POST':
-        # TODO: Make an `update_one` database call to update the plant with the
-        # given id. Make sure to put the updated fields in the `$set` object.
-
-
-        return redirect(url_for('detail', plant_id=plant_id))
+        updated_plant_info = { "$set": {
+            'plant_name': request.form["plant_name"],
+            'variety': request.form["variety"],
+            'photo_url': request.form["photo_url"],
+            'date_planted': request.form["date_planted"]
+        }}
+        database.plants.update_one({"_id": ObjectId(plant_id)}, updated_plant_info)
+        return redirect(url_for('detail', plant_id = plant_id))
     else:
-        # TODO: Make a `find_one` database call to get the plant object with the
-        # passed-in _id.
-        plant_to_show = ''
-
+        plant_to_show = database.plants.find_one_or_404({"_id": ObjectId(plant_id)})
         context = {
             'plant': plant_to_show
         }
