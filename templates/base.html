@@ -4,12 +4,16 @@
         <title>My Plants</title>
         <link rel="stylesheet" href="/static/style.css">
         <link href="https://fonts.googleapis.com/css2?family=Homemade+Apple&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Comfortaa&display=swap" rel="stylesheet">
     </head>
     <body>
 
         <nav>
-            <a href="/">Home</a>
-            <a href="/about">About</a>
+            <div class="flex">
+                <a href="/"><h1 class="text-white float-left">My Plants</h1></a>
+                <a href="/about">About</a>
+            </div>
+            <a href="/create" class="button bg-green bg-green-hover mr-1 button-header">New Plant</a>
         </nav>
 
         {% block content %}{% endblock %}

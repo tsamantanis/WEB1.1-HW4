@@ -4,15 +4,16 @@
 
 <main>
     <div id="content">
-        <h1>My Plants</h1>
-        <a href="/create" class="nav">+ New Plant</a>
         <div id="items">
             {% for plant in plants %}
-                <div class="card">
-                    <a href={{"/plant/" + plant._id | string()}}><img src={{plant.photo_url}}></a>
-                    <div class="card-content">
-                        <a href={{"/plant/" + plant._id | string()}}>{{plant.name}}</a>
+                <div class="card-container">
+                    <div class="card">
+                        <a href={{"/plant/" + plant._id | string()}}><img src={{plant.photo_url}}></a>
+                        <div class="card-content">
+                            <a href={{"/plant/" + plant._id | string()}}>{{plant.plant_name}}</a>
+                        </div>
                     </div>
+                    <h4>{{plant.plant_name}}</h4>
                 </div>
             {% endfor %}
         </div>
