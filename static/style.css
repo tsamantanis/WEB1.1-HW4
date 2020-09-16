@@ -1,6 +1,6 @@
 body {
     color: #222;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Raleway', sans-serif;
     margin: 0;
     padding: 0;
     position: relative;
@@ -126,7 +126,7 @@ div.card-content a {
 
 h1, h2, h3 {
     color: #229954;
-    font-family: 'Comfortaa', sans-serif;
+    font-family: 'Montserrat Alternates', sans-serif;
 }
 
 form {
@@ -148,7 +148,7 @@ form fieldset {
 form legend {
     color: #229954;
     text-align: center;
-    font-family: 'Comfortaa', sans-serif;
+    font-family: 'Montserrat Alternates', sans-serif;
 }
 
 form label {
@@ -186,6 +186,10 @@ div.harvest-history {
 }
 
 /*  Helpers */
+
+.logo {
+    font-family: "Comfortaa", sans-serif;
+}
 
 .button {
     border: none;
@@ -239,6 +243,20 @@ div.harvest-history {
     margin-right: 1rem;
 }
 
+.justify-content-between {
+    align-items: center;
+    justify-content: space-between;
+}
+
+.justify-content-center {
+    justify-content: center;
+}
+
+.full-view {
+    height: 100vh;
+    width: 100%;
+}
+
 .card-container {
     width: 200px;
     margin: 25px;
@@ -246,4 +264,13 @@ div.harvest-history {
 
 .card-container h4 {
     float: right;
+}
+
+.detail-image {
+    width: 400px;
+    height: 400px;
+}
+
+.font-size-xl {
+    font-size: 5rem;
 }

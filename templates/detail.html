@@ -2,23 +2,23 @@
 {% block content %}
 
 <main>
-        <h1>{{plant.name}}</h1>
+        <div class="full-view flex justify-content-between" id="info">
+            <div class="justify-content-center">
+                <h1 class="font-size-xl">{{plant.plant_name}}</h1>
+                <h3>Info</h3>
+                <strong>Date Planted</strong>
+                {{plant.date_planted}}
+                <br><br>
+                <strong>Variety</strong>
+                {{plant.variety}}
+                <br /><br />
+                <a class="nav button" href={{"/edit/" + plant._id | string()}}>Edit Plant</a><br><br>
+            </div>
+            <div class="justify-content-center">
+                <img class="detail-image" src={{plant.photo_url}}>
+            </div>
+        </div>
 
-        <img src={{plant.photo_url}}>
-
-        <section id="info">
-            <h3>Info</h3>
-
-            <strong>Date Planted</strong>
-            {{plant.date_planted}}
-            <br><br>
-
-            <strong>Variety</strong>
-            {{plant.variety}}
-            <br><br>
-
-            <a class="nav" href={{"/edit/" + plant._id | string()}}>Edit Plant</a><br><br>
-        </section>
 
         <form action={{"/harvest/" + plant._id | string()}} method="POST">
             <fieldset>
