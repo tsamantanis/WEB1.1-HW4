@@ -34,6 +34,7 @@ def about():
 def create():
     """Display the fruit creation page & process data from the creation form."""
     if request.method == 'POST':
+        print(request.form["fruit"])
         photo_url, color = get_fruit_details(request.form["fruit"])
         new_fruit_info = {
             'name': request.form["fruit"],
@@ -102,8 +103,12 @@ def delete(fruit_id):
 
 def get_fruit_details(fruit):
     """Returns image url for specified fruit"""
-    if fruit in fruits:
-        return fruit['url'], fruit['color']
+    index = 0
+    for fruit_preset in fruits:
+        for key in fruit_preset:
+            if fruit == str(key):
+                return fruits[index][str(key)]['url'], fruits[index][str(key)]['color']
+        index += 1
 
 if __name__ == '__main__':
     app.run(debug=True)

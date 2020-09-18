@@ -13,9 +13,11 @@
                 Fruit
                 <select name="fruit" class="select-style" style="-webkit-appearance: none;">
                     {% for fruit in fruits %}
-                    <option value={{fruit.name}}>
-                        {{fruit.name}}
-                    </option>
+                        {% for key in fruit %}
+                            <option value={{key | string()}}>
+                                {{key}}
+                            </option>
+                        {% endfor %}
                     {% endfor %}
                 </select>
             </label>
