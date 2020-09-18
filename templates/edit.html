@@ -2,30 +2,30 @@
 {% block content %}
 
 <main>
-    <h1>Edit Plant</h1>
+    <h1>Edit fruit</h1>
 
     <form method='POST'>
         <fieldset>
-            <legend>Please fill out your plant's info:</legend>
+            <legend>Please fill out your fruit's info:</legend>
 
             <label>
-                Plant's name:
-                <input type="text" name="plant_name" value={{plant.plant_name}}>
+                fruit's name:
+                <input type="text" name="name" value={{fruit.name}}>
             </label>
 
             <label>
-                Plant's variety:
-                <input type="text" name="variety" value={{plant.variety}}>
+                fruit's variety:
+                <input type="text" name="variety" value={{fruit.variety}}>
             </label>
 
             <label>
-                Plant's photo URL:
-                <input type="url" name="photo_url" value={{plant.photo_url}}>
+                fruit's photo URL:
+                <input type="url" name="photo_url" value={{fruit.photo_url}}>
             </label>
 
             <label>
                 Date planted:
-                <input type="date" name="date_planted" value={{plant.date_planted}}>
+                <input type="date" name="date_planted" value={{fruit.date_planted}}>
             </label>
 
             <input type="submit" class="submit" value="Submit!">

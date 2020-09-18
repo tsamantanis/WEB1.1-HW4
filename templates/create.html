@@ -3,33 +3,33 @@
 
 
 <main>
-    <h1>New Plant</h1>
+    <h1>New fruit</h1>
 
     <form method='POST'>
         <fieldset>
-            <legend>Please fill out your plant's info:</legend>
+            <legend>Please fill out your fruit's info:</legend>
 
             <label>
-                Plant's name:
-                <input type="text" name="plant_name" required>
+                Fruit
+                <select name="fruit" class="select-style" style="-webkit-appearance: none;">
+                    {% for fruit in fruits %}
+                    <option value={{fruit.name}}>
+                        {{fruit.name}}
+                    </option>
+                    {% endfor %}
+                </select>
             </label>
 
             <label>
-                Plant's variety:
+                Fruit's variety:
                 <input type="text" name="variety" required>
             </label>
-
-            <label>
-                Plant's photo URL:
-                <input type="url" name="photo_url" required>
-            </label>
-
             <label>
                 Date planted:
                 <input type="date" name="date_planted" required>
             </label>
 
-            <input type="submit" class="submit button bg-green bg-green-hover" value="Submit!">
+            <input type="submit" class="submit button bg-green bg-green-hover" value="Submit">
         </fieldset>
     </form>
 </main>

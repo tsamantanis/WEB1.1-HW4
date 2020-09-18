@@ -2,25 +2,29 @@
 {% block content %}
 
 <main>
-        <div class="full-view flex justify-content-between" id="info">
-            <div class="justify-content-center">
-                <h1 class="font-size-xl">{{plant.plant_name}}</h1>
-                <h3>Info</h3>
-                <strong>Date Planted</strong>
-                {{plant.date_planted}}
-                <br><br>
-                <strong>Variety</strong>
-                {{plant.variety}}
-                <br /><br />
-                <a class="nav button" href={{"/edit/" + plant._id | string()}}>Edit Plant</a><br><br>
+        <div class="full-view flex justify-content-between">
+            <div class="wh-100 justify-content-center mr-1">
+                <h1 class="font-size-xl">{{fruit.name}}</h1>
+                <p class="mt-n2">
+                    This fruit was planted on <strong>{{fruit.date_planted}}</strong>.
+                </p>
+                <p>
+                    It belongs to the <strong>{{fruit.variety}}</strong> variety.
+                </p>
+                <form action={{"/delete/" + fruit._id | string()}} method='POST' class="w-100" onsubmit="return confirm_delete()">
+                    <div class="form-row flex align-items-center">
+                        <a class="button button-white mr-1" href={{"/edit/" + fruit._id | string()}}>Edit</a>
+                        <button type="submit" class="button button-delete" onclick="delete_modal()" style="float: right; align-self: center;">Delete</button>
+                    </div>
+                </form>
             </div>
-            <div class="justify-content-center">
-                <img class="detail-image" src={{plant.photo_url}}>
+            <div class="wh-100 justify-content-center detail-image-container mt-n4 round-corners" style="background-color: {{fruit.color}}">
+                <img class="detail-image ml-n5" src={{fruit.photo_url}}>
             </div>
         </div>
 
 
-        <form action={{"/harvest/" + plant._id | string()}} method="POST">
+        <form action={{"/harvest/" + fruit._id | string()}} method="POST">
             <fieldset>
                 <legend>Harvested:</legend>
 
@@ -48,9 +52,7 @@
             </ul>
         </section>
 
-        <form action={{"/delete/" + plant._id | string()}} method='POST' id="delete-form" onsubmit="return confirm_delete()">
-            <input type="submit" class="nav" onclick="delete_modal()" value="Delete Plant">
-        </form>
+
 </main>
 
 {% endblock content %}

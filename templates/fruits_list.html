@@ -5,15 +5,15 @@
 <main>
     <div id="content">
         <div id="items">
-            {% for plant in plants %}
+            {% for fruit in fruits %}
                 <div class="card-container">
                     <div class="card">
-                        <a href={{"/plant/" + plant._id | string()}}><img src={{plant.photo_url}}></a>
+                        <a href={{"/fruit/" + fruit._id | string()}} style="background-color: {{fruit.color}}"><img src={{fruit.photo_url}} style="background-color: {{fruit.color}}"></a>
                         <div class="card-content">
-                            <a href={{"/plant/" + plant._id | string()}}>{{plant.plant_name}}</a>
+                            <a href={{"/fruit/" + fruit._id | string()}}>{{fruit.name}}</a>
                         </div>
                     </div>
-                    <h4>{{plant.plant_name}}</h4>
+                    <h4>{{fruit.name}}</h4>
                 </div>
             {% endfor %}
         </div>

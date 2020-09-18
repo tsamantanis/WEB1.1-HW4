@@ -2,6 +2,7 @@ from flask import Flask, request, redirect, render_template, url_for
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 
+from fruits import fruits
 ############################################################
 # SETUP
 ############################################################
@@ -16,13 +17,13 @@ database = mongo.db
 ############################################################
 
 @app.route('/')
-def plants_list():
-    """Display the plants list page."""
-    plants_data = database.plants.find()
+def fruits_list():
+    """Display the fruits list page."""
+    fruits_data = database.fruits.find()
     context = {
-        'plants': plants_data,
+        'fruits': fruits_data,
     }
-    return render_template('plants_list.html', **context)
+    return render_template('fruits_list.html', **context)
 
 @app.route('/about')
 def about():
@@ -31,68 +32,78 @@ def about():
 
 @app.route('/create', methods=['GET', 'POST'])
 def create():
-    """Display the plant creation page & process data from the creation form."""
+    """Display the fruit creation page & process data from the creation form."""
     if request.method == 'POST':
-        new_plant_info = {
-            'plant_name': request.form["plant_name"],
+        photo_url, color = get_fruit_details(request.form["fruit"])
+        new_fruit_info = {
+            'name': request.form["fruit"],
             'variety': request.form["variety"],
-            'photo_url': request.form["photo_url"],
+            'photo_url': photo_url,
+            'color': color,
             'date_planted': request.form["date_planted"]
         }
-        new_plant = database.plants.insert_one(new_plant_info)
-        return redirect(url_for('detail', plant_id = new_plant.inserted_id))
+        new_fruit = database.fruits.insert_one(new_fruit_info)
+        return redirect(url_for('detail', fruit_id = new_fruit.inserted_id))
 
     else:
-        return render_template('create.html')
+        return render_template('create.html', fruits = fruits)
 
-@app.route('/plant/<plant_id>')
-def detail(plant_id):
-    """Display the plant detail page & process data from the harvest form."""
-    plant_to_show = database.plants.find_one_or_404({"_id": ObjectId(plant_id)})
-    harvests = database.harvests.find({"plant_id": ObjectId(plant_id)})
+@app.route('/fruit/<fruit_id>')
+def detail(fruit_id):
+    """Display the fruit detail page & process data from the harvest form."""
+    fruit_to_show = database.fruits.find_one_or_404({"_id": ObjectId(fruit_id)})
+    harvests = database.harvests.find({"fruit_id": ObjectId(fruit_id)})
     context = {
-        'plant' : plant_to_show,
+        'fruit' : fruit_to_show,
         'harvests': harvests
     }
     return render_template('detail.html', **context)
 
-@app.route('/harvest/<plant_id>', methods=['POST'])
-def harvest(plant_id):
+@app.route('/harvest/<fruit_id>', methods=['POST'])
+def harvest(fruit_id):
     """Accepts a POST request with data for 1 harvest and inserts into database."""
     new_harvest = {
         'quantity': request.form["quantity"],
         'date_harvested': request.form["date_harvested"],
-        'plant_id': ObjectId(plant_id)
+        'fruit_id': ObjectId(fruit_id)
     }
     database.harvests.insert_one(new_harvest)
-    return redirect(url_for('detail', plant_id = plant_id))
+    return redirect(url_for('detail', fruit_id = fruit_id))
 
-@app.route('/edit/<plant_id>', methods=['GET', 'POST'])
-def edit(plant_id):
+@app.route('/edit/<fruit_id>', methods=['GET', 'POST'])
+def edit(fruit_id):
     """Shows the edit page and accepts a POST request with edited data."""
     if request.method == 'POST':
-        updated_plant_info = { "$set": {
-            'plant_name': request.form["plant_name"],
+        updated_fruit_info = { "$set": {
+            'fruit_name': request.form["fruit_name"],
             'variety': request.form["variety"],
             'photo_url': request.form["photo_url"],
             'date_planted': request.form["date_planted"]
         }}
-        database.plants.update_one({"_id": ObjectId(plant_id)}, updated_plant_info)
-        return redirect(url_for('detail', plant_id = plant_id))
+        database.fruits.update_one({"_id": ObjectId(fruit_id)}, updated_fruit_info)
+        return redirect(url_for('detail', fruit_id = fruit_id))
     else:
-        plant_to_show = database.plants.find_one_or_404({"_id": ObjectId(plant_id)})
+        fruit_to_show = database.fruits.find_one_or_404({"_id": ObjectId(fruit_id)})
         context = {
-            'plant': plant_to_show
+            'fruit': fruit_to_show
         }
 
         return render_template('edit.html', **context)
 
-@app.route('/delete/<plant_id>', methods=['POST'])
-def delete(plant_id):
-    """Delete's specified plant and all of its harvest data"""
-    database.plants.delete_one({"_id": ObjectId(plant_id)})
-    database.harvests.delete_many({"plant_id": ObjectId(plant_id)})
-    return redirect(url_for('plants_list'))
+@app.route('/delete/<fruit_id>', methods=['POST'])
+def delete(fruit_id):
+    """Delete's specified fruit and all of its harvest data"""
+    database.fruits.delete_one({"_id": ObjectId(fruit_id)})
+    database.harvests.delete_many({"fruit_id": ObjectId(fruit_id)})
+    return redirect(url_for('fruits_list'))
+
+
+# Helpers
+
+def get_fruit_details(fruit):
+    """Returns image url for specified fruit"""
+    if fruit in fruits:
+        return fruit['url'], fruit['color']
 
 if __name__ == '__main__':
     app.run(debug=True)
