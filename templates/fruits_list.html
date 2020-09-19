@@ -3,21 +3,31 @@
 
 
 <main>
-    <div id="content">
-        <div id="items">
-            {% for fruit in fruits %}
-                <div class="card-container">
-                    <div class="card">
-                        <a href={{"/fruit/" + fruit._id | string()}} style="background-color: {{fruit.color}}"><img src={{fruit.photo_url}} style="background-color: {{fruit.color}}"></a>
-                        <div class="card-content">
-                            <a href={{"/fruit/" + fruit._id | string()}}>{{fruit.name}}</a>
+    {% if fruits_count > 0 %}
+        <div id="content">
+            <div id="items">
+                {% for fruit in fruits %}
+                    <div class="card-container">
+                        <div class="card">
+                            <a href={{"/fruit/" + fruit._id | string()}} style="background-color: {{fruit.color}}"><img src={{fruit.photo_url}} style="background-color: {{fruit.color}}"></a>
+                            <div class="card-content">
+                                <a href={{"/fruit/" + fruit._id | string()}}>{{fruit.name}}</a>
+                            </div>
                         </div>
+                        <h4>{{fruit.name}}</h4>
                     </div>
-                    <h4>{{fruit.name}}</h4>
-                </div>
-            {% endfor %}
+                {% endfor %}
+            </div>
         </div>
-    </div>
+    {% else %}
+        <div class="image-page pb-10">
+            <img src="https://purepng.com/public/uploads/large/purepng.com-orange-juice-splashingjuicedrinkingorangedrinktasty-331522417665rbv0a.png" alt="404 Error image" />
+            <br /><br  />
+            <h3 class="mt-n2">Welcome to your fruit data base. You don't have any fruits yet, so let's create one!</h3>
+            <br /><br  />
+            <a href="/create" class="button button-white">New fruit</a>
+        </div>
+    {% endif %}
 
 </main>
 

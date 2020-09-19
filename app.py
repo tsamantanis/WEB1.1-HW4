@@ -22,6 +22,7 @@ def fruits_list():
     fruits_data = database.fruits.find()
     context = {
         'fruits': fruits_data,
+        'fruits_count': fruits_data.count()
     }
     return render_template('fruits_list.html', **context)
 
