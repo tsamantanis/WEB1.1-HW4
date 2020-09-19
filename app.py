@@ -56,7 +56,8 @@ def detail(fruit_id):
     harvests = database.harvests.find({"fruit_id": ObjectId(fruit_id)})
     context = {
         'fruit' : fruit_to_show,
-        'harvests': harvests
+        'harvests': harvests,
+        'harvest_count': harvests.count()
     }
     return render_template('detail.html', **context)
 

@@ -1,5 +1,9 @@
 /*  Helpers */
 
+html {
+    scroll-behavior: smooth
+}
+
 .logo {
     font-family: "Comfortaa", sans-serif;
 }

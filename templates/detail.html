@@ -11,9 +11,19 @@
                 <p>
                     It belongs to the <strong>{{fruit.variety}}</strong> variety.
                 </p>
+                {% if harvest_count > 0 %}
+                    <h3>Harvest History</h3>
+
+                    <ul>
+                        {% for harvest in harvests %}
+                        <li>{{harvest.date_harvested}}: Harvested {{harvest.quantity}}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
                 <form action={{"/delete/" + fruit._id | string()}} method='POST' class="w-100" onsubmit="return confirm_delete()">
                     <div class="form-row flex align-items-center">
                         <a class="button button-white mr-1" href={{"/edit/" + fruit._id | string()}}>Edit</a>
+                        <a class="button button-white mr-1" href="#harvest_form">Harvest</a>
                         <button type="submit" class="button button-delete" onclick="delete_modal()" style="float: right; align-self: center;">Delete</button>
                     </div>
                 </form>
@@ -23,10 +33,9 @@
             </div>
         </div>
 
-
-        <form action={{"/harvest/" + fruit._id | string()}} method="POST">
+        <form action={{"/harvest/" + fruit._id | string()}} method="POST" id="harvest_form">
             <fieldset>
-                <legend>Harvested:</legend>
+                <legend>Harvest Details:</legend>
 
                 <label>
                     Amount harvested
@@ -38,21 +47,9 @@
                     <input type="date" name="date_harvested">
                 </label>
 
-                <input type="submit" class="submit" value="Harvest!">
+                <button type="submit" class="submit button bg-green bg-green-hover">Harvest</button>
             </fieldset>
         </form>
-
-        <section id="harvest-history">
-            <h3>Harvest History</h3>
-
-            <ul>
-                {% for harvest in harvests %}
-                <li>{{harvest.date_harvested}}: Harvested {{harvest.quantity}}</li>
-                {% endfor %}
-            </ul>
-        </section>
-
-
 </main>
 
 {% endblock content %}
