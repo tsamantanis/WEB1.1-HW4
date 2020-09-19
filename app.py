@@ -99,6 +99,12 @@ def delete(fruit_id):
     database.harvests.delete_many({"fruit_id": ObjectId(fruit_id)})
     return redirect(url_for('fruits_list'))
 
+# Error Handling
+
+@app.errorhandler(404)
+def show_404(error):
+    """Display a 404 error page"""
+    return render_template('error_page.html', message = "Oops! Looks like you are using an invalid URL.", button = "Back to Home"), 404
 
 # Helpers
 
